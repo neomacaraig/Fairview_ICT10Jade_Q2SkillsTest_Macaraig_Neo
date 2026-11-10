@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ICT Skills Test - Non-Metal Element Explorer</title>
+    
+    <!-- google fonts used -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- pyscript core styles and javascript -->
+    <link rel="stylesheet" href="https://pyscript.net/releases/2025.3.1/core.css" />
+    <script type="module" src="https://pyscript.net/releases/2025.3.1/core.js"></script>
+
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: linear-gradient(rgba(10, 10, 10, 0.85), rgba(10, 10, 10, 0.9)), 
+                        url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSTFV__LxtxWE5amYa5MtyHuhrEcH08q3DKyMLmFjmFHkd-rZKhgJaIn6w&s=10') no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            flex-direction: column;
+            justify-content: center; 
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            color: #e4e4e7;
+            padding: 25px;
+            gap: 20px; 
+        }
+
+        header {
+            text-align: center;
+        }
+
+        header h2 {
+            font-family: 'Fredoka', sans-serif;
+            color: #10b981;
+            font-size: 28px;
+            margin: 0;
+            text-shadow: 0 2px 12px rgba(16, 185, 129, 0.3);
+        }
+
+        header p {
+            color: #a1a1aa;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        .main-wrapper {
+            display: flex;
+            gap: 25px;
+            width: 100%;
+            max-width: 980px;
+            align-items: stretch;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .container, .reference-box {
+            background: rgba(18, 18, 18, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7), 0 0 15px rgba(16, 185, 129, 0.08);
+            border: 1px solid rgba(16, 185, 129, 0.25);
+            flex: 1;
+            min-width: 340px;
+        }
+
+        h3 {
+            font-family: 'Fredoka', sans-serif;
+            color: #10b981; 
+            margin-bottom: 20px;
+            margin-top: 0;
+            text-align: center;
+            font-size: 22px;
+            letter-spacing: 0.5px;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            padding: 14px 16px;
+            background-color: rgba(24, 24, 27, 0.9); 
+            border: 2px solid #27272a;
+            border-radius: 12px;
+            font-size: 16px;
+            font-family: 'Quicksand', sans-serif;
+            color: #10b981; 
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        input[type="text"]::placeholder {
+            color: #71717a;
+        }
+
+        input[type="text"]:focus {
+            border-color: #10b981; 
+            background-color: #121212;
+            box-shadow: 0 0 12px rgba(16, 185, 129, 0.3);
+        }
+
+        button {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: #09090b;
+            border: none;
+            padding: 14px 22px;
+            border-radius: 12px;
+            font-family: 'Fredoka', sans-serif;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(16, 185, 129, 0.4);
+            background: linear-gradient(135deg, #34d399, #10b981);
+        }
+
+        button:active {
+            transform: translateY(1px);
+        }
+
+        .result-card {
+            margin-top: 20px;
+            padding: 18px;
+            border-radius: 14px;
+            text-align: left;
+            display: none;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .result-card.show {
+            display: block;
+        }
+
+        .success {
+            background-color: rgba(2, 44, 34, 0.85); 
+            border: 1px solid rgba(16, 185, 129, 0.5);
+            color: #a7f3d0;
+            box-shadow: inset 0 0 15px rgba(16, 185, 129, 0.05);
+        }
+
+        .error {
+            background-color: rgba(69, 10, 10, 0.85); 
+            border: 1px solid rgba(220, 38, 38, 0.5);
+            color: #fecaca;
+        }
+
+        .result-card p {
+            margin: 10px 0;
+            font-size: 15px;
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding-bottom: 6px;
+        }
+
+        .result-card p:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .result-card strong {
+            color: #34d399; 
+            font-weight: 600;
+        }
+
+        .element-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            max-height: 270px;
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+
+        .element-grid::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .element-grid::-webkit-scrollbar-thumb {
+            background-color: #27272a;
+            border-radius: 4px;
+        }
+
+        .element-card {
+            background: rgba(24, 24, 27, 0.8);
+            border: 1px solid #27272a;
+            border-radius: 10px;
+            padding: 10px 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.2s ease;
+        }
+
+        .element-card:hover {
+            border-color: #10b981;
+            background: rgba(16, 185, 129, 0.1);
+        }
+
+        .element-card span {
+            font-size: 13px;
+            color: #d1d5db;
+        }
+
+        .element-card strong {
+            color: #34d399;
+            background-color: rgba(16, 185, 129, 0.15);
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 13px;
+        }
+
+        footer {
+            font-size: 13px;
+            color: #71717a;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h2>Periodic Table Information Finder</h2>
+        <p>Submitted to Renn Santos</p>
+    </header>
+
+    <div class="main-wrapper">
+        <!-- lookup tool -->
+        <div class="container">
+            <h3>Element Lookup</h3>
+            
+            <div class="input-group">
+                <input type="text" id="symbolInput" placeholder="Enter symbol (e.g., H, O)" />
+                <button id="searchBtn">Search</button>
+            </div>
+
+            <div id="resultContainer" class="result-card"></div>
+        </div>
+
+        <!-- reference cards box -->
+        <div class="reference-box">
+            <h3>Available Non-Metals</h3>
+            <div class="element-grid">
+                <div class="element-card"><span>Hydrogen</span> <strong>H</strong></div>
+                <div class="element-card"><span>Helium</span> <strong>He</strong></div>
+                <div class="element-card"><span>Carbon</span> <strong>C</strong></div>
+                <div class="element-card"><span>Nitrogen</span> <strong>N</strong></div>
+                <div class="element-card"><span>Oxygen</span> <strong>O</strong></div>
+                <div class="element-card"><span>Fluorine</span> <strong>F</strong></div>
+                <div class="element-card"><span>Neon</span> <strong>Ne</strong></div>
+                <div class="element-card"><span>Phosphorus</span> <strong>P</strong></div>
+                <div class="element-card"><span>Sulfur</span> <strong>S</strong></div>
+                <div class="element-card"><span>Chlorine</span> <strong>Cl</strong></div>
+                <div class="element-card"><span>Argon</span> <strong>Ar</strong></div>
+                <div class="element-card"><span>Selenium</span> <strong>Se</strong></div>
+                <div class="element-card"><span>Bromine</span> <strong>Br</strong></div>
+                <div class="element-card"><span>Krypton</span> <strong>Kr</strong></div>
+                <div class="element-card"><span>Iodine</span> <strong>I</strong></div>
+                <div class="element-card"><span>Xenon</span> <strong>Xe</strong></div>
+                <div class="element-card"><span>Radon</span> <strong>Rn</strong></div>
+                <div class="element-card"><span>Oganesson</span> <strong>Og</strong></div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>Skills Test by Nea Macaraig, 10-Jade</p>
+    </footer>
+
+    <script type="py" src="./main.py"></script>
+</body>
+</html>
